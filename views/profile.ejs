@@ -27,8 +27,10 @@
                 <div class="pb-2">
                     <p class="text-sm tracking-tight"><%= post.content %></p>
                 </div>
-                <div class="btns flex gap-3 mt-5">
-                    <a  class="text-blue-400 text-sm">Like</a>
+                <small class="inline-block mt-1"><%= post.likes.length %> likes</small>
+                <div class="btns flex gap-3 mt-2">
+                    <a  class="text-blue-400 text-sm" href="/like/<%= post._id %>">
+                        <%= post.likes.indexOf(user._id)===-1?"Like" : "Unlike"   %></a>
                     <a  class="text-zinc-600 text-sm">edit</a>
                 </div>
             </div>    
