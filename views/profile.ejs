@@ -31,7 +31,7 @@
                 <div class="btns flex gap-3 mt-2">
                     <a  class="text-blue-400 text-sm" href="/like/<%= post._id %>">
                         <%= post.likes.indexOf(user._id)===-1?"Like" : "Unlike"   %></a>
-                    <a  class="text-zinc-600 text-sm">edit</a>
+                    <a  class="text-zinc-600 text-sm" href="/edit/<%= post._id %>">edit</a>
                 </div>
             </div>    
        <% }) %>

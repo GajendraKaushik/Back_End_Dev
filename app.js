@@ -27,6 +27,18 @@ app.get('/profile', isLogedin, async(req, res)=>{
    console.log(user.posts)
   res.render("profile", {user}); 
 })
+app.get('/edit/:id', isLogedin, async(req, res)=>{
+    let post = await userPost.findOne({_id: req.params.id}).populate("user"); 
+   res.render("edit",{post}); 
+ })
+
+ app.post('/update/:id', isLogedin, async(req, res)=>{
+    let post = await userPost.findOneAndUpdate({_id: req.params.id}, {content:req.body.content}); 
+    console.log(post, "post1")
+   res.redirect("/profile"); 
+ })
+
+
 app.get('/like/:id', isLogedin, async(req, res)=>{
     let post = await userPost.findOne({_id: req.params.id}).populate("user"); 
     console.log(post, "post")
@@ -42,14 +54,11 @@ app.get('/like/:id', isLogedin, async(req, res)=>{
 app.post('/post', isLogedin, async(req, res)=>{
     let user = await userModel.findOne({email: req.user.email})
     let {content} = req.body
-
     let post = await userPost.create({
         user:user._id,
         content
     });
-
     user.posts.push(post._id)
-
     await user.save()
    res.redirect("/profile"); 
  })
