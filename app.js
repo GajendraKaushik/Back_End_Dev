@@ -5,6 +5,7 @@ const userPost = require('./model/post')
 const cookieParser = require('cookie-parser')
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken')
+const upload = require('./config/multerconfig')
 
 const app = express()
 
@@ -21,6 +22,18 @@ app.get('/',(req, res)=>{
 app.get('/login',(req, res)=>{
     res.render("login") 
 })
+
+app.get('/profile/upload',(req, res)=>{
+    res.render("profileUpload") 
+})
+
+app.post('/upload', upload.single('image'), isLogedin, async(req, res)=>{
+    let user = await userModel.findOne({email: req.user.email});
+    user.profilepic = req.file.filename
+    await user.save()
+    res.redirect("profile") 
+})
+
 
 app.get('/profile', isLogedin, async(req, res)=>{
    let user = await userModel.findOne({email: req.user.email}).populate("posts"); 
